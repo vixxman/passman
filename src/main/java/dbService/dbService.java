@@ -33,9 +33,9 @@ public class dbService {
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         //configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/db_example?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "root");
+        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_0e42ab44acebf93?reconnect=true&createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false");
+        configuration.setProperty("hibernate.connection.username", "b19ae7cb061813");
+        configuration.setProperty("hibernate.connection.password", "37b73ebf");
         configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
         configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
         return configuration;
