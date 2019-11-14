@@ -3,10 +3,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import dbService.dbService;
 import services.AccountService;
-import servlets.CodeServlet;
-import servlets.SignInM;
-import servlets.SignInServlet;
-import servlets.SignUpServlet;
+import servlets.*;
 
 
 public class main {
@@ -24,6 +21,8 @@ public class main {
         signInM.setAccountService(accountService);
         context.addServlet(new ServletHolder(signInM), "/signinm");
 
+        Default def=new Default();
+        context.addServlet(new ServletHolder(def),"/");
 
 
         SignUpServlet signUpServlet=new SignUpServlet();
