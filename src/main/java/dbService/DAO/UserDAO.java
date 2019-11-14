@@ -39,7 +39,7 @@ public class UserDAO {
         }
     }
 
-    public long insertUser(User user) throws HibernateException {
-        return (Long )session.save(user);
+    public void insertUser(User user) throws HibernateException {
+         session.save(user);
     }
 }

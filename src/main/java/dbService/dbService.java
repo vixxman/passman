@@ -48,14 +48,13 @@ public class dbService {
         return configuration.buildSessionFactory(serviceRegistry);
     }
 
-    public long addUser(User user){
+    public void addUser(User user){
         Session session=sessionFactory.openSession();
         Transaction tx=session.beginTransaction();
         UserDAO userDAO=new UserDAO(session);
-        long id=userDAO.insertUser(user);
+        userDAO.insertUser(user);
         tx.commit();
         session.close();
-        return id;
     }
 
     public User getUser(String name) {

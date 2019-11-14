@@ -29,7 +29,7 @@ public class SignUpServlet extends HttpServlet {
         User user = accountService.getUserByLogin(login);
         if(user!=null){
             resp.setContentType("text/html:charset=utf-8");
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.setStatus(HttpServletResponse.SC_OK);
             return;
         }
         user = new User(login, password);
