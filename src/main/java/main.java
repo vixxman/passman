@@ -5,10 +5,12 @@ import dbService.dbService;
 import services.AccountService;
 import servlets.*;
 
+import javax.persistence.Convert;
+
 
 public class main {
     public static void main(String args[]) throws Exception{
-        Server server=new Server(8080);
+        Server server=new Server(Integer.getInteger(System.getenv("PORT")));
         dbService dbS=new dbService();
         AccountService accountService=new AccountService(dbS);
 
