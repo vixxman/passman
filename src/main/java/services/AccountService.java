@@ -30,17 +30,15 @@ public class AccountService implements Job{
         scheduler.start();
     }
 
-    public long AddNewUser(User user){
+    public void AddNewUser(User user){
         try{
-            long id= dbS.addUser(user);
+            dbS.addUser(user);
             loginToProfile1.put(user.getLogin(),user);
             setCodeForUser(user.getLogin());
             setJob(user.getLogin());
-            return id;
         }
         catch (Exception ex){
             ex.printStackTrace();
-            return -1;
         }
     }
 
