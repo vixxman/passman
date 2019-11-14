@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/dependency/* org.menpasserver.main
+web: java -cp target/classes/:target/dependency/* org.menpasserver.passman.main
