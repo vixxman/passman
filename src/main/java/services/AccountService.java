@@ -22,7 +22,7 @@ public class AccountService implements Job{
     public AccountService(dbService dbS) throws SchedulerException {
         loginToProfile1= new HashMap();
         loginToProfileM=new HashMap();
-        codeForUser=new HashMap<>();
+        codeForUser=new HashMap();
         this.dbS=dbS;
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
         this.scheduler = schedulerFactory.getScheduler();

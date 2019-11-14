@@ -40,6 +40,6 @@ public class UserDAO {
     }
 
     public long insertUser(User user) throws HibernateException {
-        return (long )session.save(user);
+        return (Long )session.save(user);
     }
 }
