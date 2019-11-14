@@ -33,6 +33,7 @@ public class SignInServlet extends HttpServlet {
         else{
             if(accountService.userIsLogged(user.getLogin())){
                 resp.setContentType("text/html:charset=utf-8");
+                resp.setHeader("A", "userIsLogged");
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
             else{
