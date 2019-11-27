@@ -38,6 +38,9 @@ public class dbService {
         configuration.setProperty("hibernate.connection.password", "37b73ebf");
         configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
         configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
+        configuration.setProperty("hibernate.c3p0.min_size","5");
+        configuration.setProperty("hibernate.c3p0.max_size","20");
+        configuration.setProperty("hibernate.c3p0.timeout","300");
         return configuration;
     }
 

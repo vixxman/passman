@@ -3,7 +3,6 @@ package services;
 import dbService.models.User;
 import dbService.dbService;
 import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,18 +15,12 @@ public class AccountService implements Job{
     private final Map<String, User> loginToProfileM;
     private final Map<String, String> codeForUser;
     private dbService dbS;
-    private Scheduler scheduler;
-    private Trigger t;
 
-    public AccountService(dbService dbS) throws SchedulerException {
+    public AccountService(dbService dbS){
         loginToProfile1= new HashMap();
         loginToProfileM=new HashMap();
         codeForUser=new HashMap();
         this.dbS=dbS;
-        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
-        this.scheduler = schedulerFactory.getScheduler();
-
-        scheduler.start();
     }
 
     public void AddNewUser(User user){
@@ -35,29 +28,18 @@ public class AccountService implements Job{
             dbS.addUser(user);
             loginToProfile1.put(user.getLogin(),user);
             setCodeForUser(user.getLogin());
-            setJob(user.getLogin());
         }
         catch (Exception ex){
-            ex.printStackTrace();
+
         }
     }
 
     public void LogUser(User user){
         loginToProfile1.put(user.getLogin(), user);
+        setCodeForUser(user.getLogin());
     }
     public void LogUserM(User user){
         loginToProfileM.put(user.getLogin(), user);
-    }
-
-    public void setJob(String login){
-        try{
-            JobDetail jobDetail= JobBuilder.newJob(AccountService.class).withIdentity(login).build();
-            if(t==null) t= TriggerBuilder.newTrigger().startAt(DateBuilder.futureDate(10, DateBuilder.IntervalUnit.MINUTE)).forJob(jobDetail).build();
-            scheduler.scheduleJob(jobDetail,t);
-        }
-        catch (SchedulerException e){
-            e.printStackTrace();
-        }
     }
 
 
@@ -81,9 +63,22 @@ public class AccountService implements Job{
     }
 
     public void execute(JobExecutionContext context){
-        String s=context.getJobDetail().getDescription();
+        JobDataMap jdm=context.getJobDetail().getJobDataMap();
+        String s=jdm.getString("login");
+        System.out.println(s);
         loginToProfile1.remove(s);
         codeForUser.remove(s);
+        setCodeForUser(s);
+    }
+
+    public void logout(User user){
+        loginToProfile1.remove(user.getLogin());
+        codeForUser.remove(user.getLogin());
+    }
+
+    public void logoutM(User user){
+        loginToProfileM.remove(user.getLogin());
+        codeForUser.remove(user.getLogin());
     }
 
     private String setCode(String name){

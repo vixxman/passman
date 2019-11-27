@@ -5,6 +5,7 @@ import dbService.models.User;
 import org.hibernate.HibernateException;
 import org.quartz.SchedulerException;
 import services.AccountService;
+import services.SchedulerMan;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,12 @@ public class SignUpServlet extends HttpServlet {
         User user = accountService.getUserByLogin(login);
         if(user!=null){
             resp.setContentType("text/html:charset=utf-8");
-            resp.setStatus(HttpServletResponse.SC_OK);
+            resp.setStatus(HttpServletResponse.SC_FOUND);
+            return;
+        }
+        if(password.length()<8){
+            resp.setContentType("text/html:charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         user = new User(login, password);

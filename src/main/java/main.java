@@ -3,15 +3,18 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import dbService.dbService;
 import services.AccountService;
+import services.SchedulerMan;
 import servlets.*;
 
-import javax.persistence.Convert;
 
 
 public class main {
     public static void main(String args[]) throws Exception{
         Server server=new Server(Integer.parseInt(System.getenv("PORT")));
+        //Server server=new Server(8080);
         dbService dbS=new dbService();
+
+        SchedulerMan schedulerMan=new SchedulerMan();
         AccountService accountService=new AccountService(dbS);
 
         ServletContextHandler context=new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -34,6 +37,18 @@ public class main {
         CodeServlet codeServlet=new CodeServlet();
         codeServlet.setAccountService(accountService);
         context.addServlet(new ServletHolder(codeServlet),"/code");
+
+        CodeServletM codeServletM=new CodeServletM();
+        codeServletM.setAccountService(accountService);
+        context.addServlet(new ServletHolder(codeServletM),"/codem");
+
+        SignOutM signOutM=new SignOutM();
+        signOutM.setAccountService(accountService);
+        context.addServlet(new ServletHolder(signOutM),"/signoutm");
+
+        SignOutServlet signOut=new SignOutServlet();
+        signOut.setAccountService(accountService);
+        context.addServlet(new ServletHolder(signOut),"/signout");
 
 
         server.setHandler(context);
