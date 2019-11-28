@@ -40,6 +40,7 @@ public class AccountService implements Job{
     }
     public void LogUserM(User user){
         loginToProfileM.put(user.getLogin(), user);
+        setCodeForUser(user.getLogin());
     }
 
 

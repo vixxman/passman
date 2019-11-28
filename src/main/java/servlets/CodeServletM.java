@@ -18,7 +18,8 @@ public class CodeServletM extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         boolean b=accountService.userIsLoggedM(login);
-        if(b==false){
+        boolean m=accountService.userIsLogged(login);
+        if(b==false || m==false){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
