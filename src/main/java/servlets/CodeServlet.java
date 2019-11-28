@@ -27,7 +27,8 @@ public class CodeServlet extends HttpServlet {
         String code = req.getParameter("code");
 
         boolean b=accountService.userIsLogged(login);
-        if(b==false){
+        boolean m=accountService.userIsLoggedM(login);
+        if(b==false ||m ==false){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
