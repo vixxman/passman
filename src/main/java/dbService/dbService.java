@@ -69,7 +69,7 @@ public class dbService {
         return dataSet;
     }
 
-    public void updateUser(String name, Timestamp time){
+    public void updateUserSession(String name, Timestamp time){
         Session session = sessionFactory.openSession();
         UserDAO dao = new UserDAO(session);
         User dataSet = dao.get(name);

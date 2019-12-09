@@ -23,7 +23,7 @@ public class User implements Serializable{
     @Column(name="password")
     private String password;
 
-    @Column(name="datestamp")
+    @Column(name="Timestamp", nullable = false)
     private Timestamp session;
 
 

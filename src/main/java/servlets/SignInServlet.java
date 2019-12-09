@@ -23,6 +23,7 @@ import java.sql.Timestamp;
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { //авторизация
         String login=req.getParameter("login");
         String password=req.getParameter("password");
+        Timestamp t1=new Timestamp(System.currentTimeMillis());
         if(login==null ||password==null){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -40,7 +41,7 @@ import java.sql.Timestamp;
             }
             else{
                 accountService.LogUser(user);
-
+                accountService.updateSession(login, t1);
                 resp.setContentType("text/html:charset=utf-8");
                 resp.setStatus(HttpServletResponse.SC_OK);
             }

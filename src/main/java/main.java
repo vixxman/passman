@@ -3,18 +3,16 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import dbService.dbService;
 import services.AccountService;
-import services.SchedulerMan;
 import servlets.*;
 
 
 
 public class main {
     public static void main(String args[]) throws Exception{
-        Server server=new Server(Integer.parseInt(System.getenv("PORT")));
-        //Server server=new Server(8080);
+        //Server server=new Server(Integer.parseInt(System.getenv("PORT")));
+        Server server=new Server(8080);
         dbService dbS=new dbService();
 
-        SchedulerMan schedulerMan=new SchedulerMan();
         AccountService accountService=new AccountService(dbS);
 
         ServletContextHandler context=new ServletContextHandler(ServletContextHandler.SESSIONS);

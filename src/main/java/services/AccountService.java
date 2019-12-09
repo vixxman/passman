@@ -4,6 +4,7 @@ import dbService.models.User;
 import dbService.dbService;
 import org.quartz.*;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -43,6 +44,10 @@ public class AccountService implements Job{
         setCodeForUser(user.getLogin());
     }
 
+    public Timestamp getTimestamp(String login){
+        User u= dbS.getUser(login);
+        return u.getSession();
+    }
 
     public User getUserByLogin(String login){
         return dbS.getUser(login);
@@ -59,7 +64,11 @@ public class AccountService implements Job{
         return loginToProfileM.containsKey(login);
     }
 
-    public String getCodeForUser(String user){
+    public void updateSession(String login,Timestamp t){
+        dbS.updateUserSession(login, t);
+    }
+
+    public String getCodeForUser(String user) {
         return codeForUser.get(user);
     }
 
