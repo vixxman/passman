@@ -13,6 +13,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 
 public class dbService {
@@ -66,6 +67,16 @@ public class dbService {
         User dataSet = dao.get(name);
         session.close();
         return dataSet;
+    }
+
+    public void updateUser(String name, Timestamp time){
+        Session session = sessionFactory.openSession();
+        UserDAO dao = new UserDAO(session);
+        User dataSet = dao.get(name);
+        dataSet.setSession(time);
+        Transaction tx=session.beginTransaction();
+        tx.commit();
+        session.close();
     }
 
     public void deleteUser(String name)throws dbException{

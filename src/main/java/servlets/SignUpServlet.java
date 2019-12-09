@@ -5,12 +5,11 @@ import dbService.models.User;
 import org.hibernate.HibernateException;
 import org.quartz.SchedulerException;
 import services.AccountService;
-import services.SchedulerMan;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 
 public class SignUpServlet extends HttpServlet {
     private AccountService accountService;
@@ -38,7 +37,7 @@ public class SignUpServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
-        user = new User(login, password);
+        user = new User(login, password, new Timestamp(System.currentTimeMillis()));
         accountService.AddNewUser(user);
         resp.setContentType("text/html:charset=utf-8");
         resp.setStatus(HttpServletResponse.SC_OK);

@@ -1,16 +1,17 @@
-package servlets;
+    package servlets;
 
 import dbService.models.User;
 import services.AccountService;
-import services.SchedulerMan;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
 
-public class SignInServlet extends HttpServlet {
+    public class SignInServlet extends HttpServlet {
 
     private AccountService accountService;
 
@@ -39,6 +40,7 @@ public class SignInServlet extends HttpServlet {
             }
             else{
                 accountService.LogUser(user);
+
                 resp.setContentType("text/html:charset=utf-8");
                 resp.setStatus(HttpServletResponse.SC_OK);
             }

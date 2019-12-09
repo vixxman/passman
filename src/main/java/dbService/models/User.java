@@ -2,6 +2,8 @@ package dbService.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import com.google.gson.Gson;
 
 @Entity
@@ -21,27 +23,9 @@ public class User implements Serializable{
     @Column(name="password")
     private String password;
 
-    @Column(name="request")
-    private boolean request;
+    @Column(name="datestamp")
+    private Timestamp session;
 
-    /*@Column (name="logged")
-    private boolean logged;
-
-    public boolean isLogged() {
-        return logged;
-    }
-
-    public void setLogged(boolean logged) {
-        this.logged = logged;
-    }*/
-
-    public boolean isRequest() {
-        return request;
-    }
-
-    public void setRequest(boolean request) {
-        this.request = request;
-    }
 
     @SuppressWarnings("UnusedDeclaration")
     public User(){
@@ -73,24 +57,23 @@ public class User implements Serializable{
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public User(String name, String password){
+    public User(String name, String password, Timestamp time){
         this.setLogin(name);
         this.setPassword(password);
-        this.request=false;
-        //this.logged=true;
-    }
-
-    @SuppressWarnings("UnusedDeclaration")
-    public User(String name, String password, boolean req){
-        this.setLogin(name);
-        this.setPassword(password);
-        this.request=req;
-        //this.logged=true;
+        this.setSession(time);
     }
 
     public String toJson() {
         Gson gson=new Gson();
         return gson.toJson(this);
+    }
+
+    public Timestamp getSession(){
+        return session;
+    }
+
+    public void setSession(Timestamp session){
+        this.session = session;
     }
 
 }
