@@ -1,3 +1,5 @@
+import com.wavesplatform.wavesj.Account;
+import com.wavesplatform.wavesj.Node;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -14,6 +16,7 @@ public class main {
         dbService dbS=new dbService();
 
         AccountService accountService=new AccountService(dbS);
+        Node node = new Node("https://testnode1.wavesnodes.com/", Account.TESTNET);
 
         ServletContextHandler context=new ServletContextHandler(ServletContextHandler.SESSIONS);
         SignInServlet signInServlet=new SignInServlet();
@@ -23,6 +26,16 @@ public class main {
         SignInM signInM=new SignInM();
         signInM.setAccountService(accountService);
         context.addServlet(new ServletHolder(signInM), "/signinm");
+
+        SavePassServlet savePassServlet=new SavePassServlet();
+        savePassServlet.setAccountService(accountService);
+        savePassServlet.setNode(node);
+        context.addServlet(new ServletHolder(savePassServlet), "/savePass");
+
+        getPassServlet getPassServlet=new getPassServlet();
+        getPassServlet.setAccountService(accountService);
+        getPassServlet.setNode(node);
+        context.addServlet(new ServletHolder(getPassServlet),"/getPass");
 
         Default def=new Default();
         context.addServlet(new ServletHolder(def),"/");

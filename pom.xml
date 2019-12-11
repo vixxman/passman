@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.menpasserver</groupId>
-    <artifactId>menpasserver-core</artifactId>
+    <artifactId>passManServer</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <build>
@@ -99,6 +99,12 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wavesplatform</groupId>
+            <artifactId>wavesj</artifactId>
+            <version>0.16.0</version>
         </dependency>
 
     </dependencies>
