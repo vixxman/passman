@@ -20,8 +20,19 @@ public class CodeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String code = req.getParameter("code");
+        String login;
+        String code;
+
+        try{
+            login = req.getParameter("login");
+            code = req.getParameter("code");
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.setContentType("text/html:charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            return;
+        }
+
         Timestamp t1= new Timestamp(System.currentTimeMillis());
         boolean b=accountService.userIsLogged(login);
         boolean m=accountService.userIsLoggedM(login);

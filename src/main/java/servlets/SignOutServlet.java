@@ -2,6 +2,7 @@ package servlets;
 
 import dbService.models.User;
 import services.AccountService;
+import services.EncryptionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,16 +23,24 @@ public class SignOutServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login=req.getParameter("login"); //хранятся в памяти
-        String password=req.getParameter("password");
-
+        String login;
+        String password;
+        try{
+            login= EncryptionService.DecryptAES(req.getParameter("login"));
+            password=EncryptionService.DecryptAES(req.getParameter("password"));
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.setContentType("text/html:charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            return;
+        }
         if(login==null || password==null){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         User user = accountService.getUserByLogin(login);
-        if(user==null){
+        if(user==null || !user.getPassword().equals(password)){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;

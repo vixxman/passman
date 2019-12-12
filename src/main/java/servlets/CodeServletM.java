@@ -1,6 +1,7 @@
 package servlets;
 
 import services.AccountService;
+import services.EncryptionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,9 +17,18 @@ public class CodeServletM extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
+        String login;
+        try{
+            login = EncryptionService.DecryptAES(req.getParameter("login"));
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.setContentType("text/html:charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            return;
+        }
         boolean b=accountService.userIsLoggedM(login);
         boolean m=accountService.userIsLogged(login);
+
         if(b==false || m==false){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -5,6 +5,7 @@ import dbService.models.User;
 import org.hibernate.HibernateException;
 import org.quartz.SchedulerException;
 import services.AccountService;
+import services.EncryptionService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +20,17 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp){
-        String login=req.getParameter("login");
-        String password=req.getParameter("password");
+        String login;
+        String password;
+        try{
+            login= EncryptionService.DecryptAES(req.getParameter("login"));
+            password=EncryptionService.DecryptAES(req.getParameter("password"));
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.setContentType("text/html:charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            return;
+        }
         if(login==null || password==null){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

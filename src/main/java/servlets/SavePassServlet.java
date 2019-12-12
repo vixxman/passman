@@ -2,6 +2,8 @@ package servlets;
 import com.wavesplatform.wavesj.*;
 import dbService.models.User;
 import services.AccountService;
+import services.EncryptionService;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,11 +33,23 @@ public class SavePassServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String seed=req.getParameter("seed");
-        String login=req.getParameter("login");
-        String pass=req.getParameter("password");
-        String password=req.getParameter("pass");
-        String description=req.getParameter("description");
+        String login;
+        String password;
+        String seed;
+        String pass;
+        String description;
+        try{
+            login= EncryptionService.DecryptAES(req.getParameter("login"));
+            password=EncryptionService.DecryptAES(req.getParameter("password"));
+            seed=EncryptionService.DecryptAES(req.getParameter("seed"));
+            pass=EncryptionService.DecryptAES(req.getParameter("pass"));
+            description=EncryptionService.DecryptAES(req.getParameter("description"));
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.setContentType("text/html:charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            return;
+        }
         Timestamp t1= new Timestamp(System.currentTimeMillis());
         boolean b=accountService.userIsLogged(login);
         boolean m=accountService.userIsLoggedM(login);
@@ -76,8 +90,15 @@ public class SavePassServlet extends HttpServlet {
                 arrayList.add(stringEntry);
                 String txid =node.data(acc, arrayList , FEE);
                 resp.setContentType("text/html:charset=utf-8");
-                resp.setHeader("tx", txid);
-                resp.setStatus(HttpServletResponse.SC_OK);
+                try{
+                    resp.setHeader("tx", EncryptionService.EncryptAES(txid));
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                    resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                }
+
             }
         }
     }
