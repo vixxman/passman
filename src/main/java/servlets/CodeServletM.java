@@ -17,9 +17,11 @@ public class CodeServletM extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login;
+        String login=req.getParameter("login");
+        System.out.println(login);
+        System.out.println(login.length());
         try{
-            login = EncryptionService.DecryptAES(req.getParameter("login"));
+            login = EncryptionService.DecryptAES(login);
         }catch (Exception e){
             e.printStackTrace();
             resp.setContentType("text/html:charset=utf-8");
@@ -35,8 +37,19 @@ public class CodeServletM extends HttpServlet {
         }
         else{
             resp.setContentType("text/html:charset=utf-8");
-            resp.setHeader("antichit", accountService.getCodeForUser(login));
-            resp.setStatus(HttpServletResponse.SC_OK);
+            String c =accountService.getCodeForUser(login);
+            try{
+                c=EncryptionService.EncryptAES(c);
+                resp.setHeader("antichit", c);
+                resp.setStatus(HttpServletResponse.SC_OK);
+                return;
+            }catch (Exception e){
+                e.printStackTrace();
+                resp.setContentType("text/html:charset=utf-8");
+                resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                return;
+            }
+
         }
     }
 

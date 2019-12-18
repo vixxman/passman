@@ -25,17 +25,20 @@ public class SignInM extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { //авторизация
-        String login;
-        String password;
-        try{
-            login= EncryptionService.DecryptAES(req.getParameter("login"));
-            password=EncryptionService.DecryptAES(req.getParameter("password"));
+        String login=req.getParameter("login");
+        String password=req.getParameter("password");
+        //login=login.substring(0,login.length()-1);
+        //password=password.substring(0,password.length()-1);
+
+        /*try{
+            login= EncryptionService.DecryptAES(login);
+            password=EncryptionService.DecryptAES(password);
         }catch (Exception e){
             e.printStackTrace();
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
             return;
-        }
+        }*/
         if(login==null ||password==null){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

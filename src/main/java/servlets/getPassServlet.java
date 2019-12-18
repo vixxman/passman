@@ -32,11 +32,11 @@ public class getPassServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login;
-        String pass;
-        String descr;
-        String address;
-        try{
+        String login=req.getParameter("login");
+        String pass=req.getParameter("password");
+        String descr=req.getParameter("description");
+        String address=req.getParameter("address");
+        /*try{
             login= EncryptionService.DecryptAES(req.getParameter("login"));
             pass=EncryptionService.DecryptAES(req.getParameter("password"));
             descr=EncryptionService.DecryptAES(req.getParameter("description"));
@@ -46,7 +46,7 @@ public class getPassServlet extends HttpServlet {
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
             return;
-        }
+        }*/
         Timestamp t1= new Timestamp(System.currentTimeMillis());
         boolean b=accountService.userIsLogged(login);
         boolean m=accountService.userIsLoggedM(login);

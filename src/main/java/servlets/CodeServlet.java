@@ -2,6 +2,7 @@ package servlets;
 
 import dbService.models.User;
 import services.AccountService;
+import services.EncryptionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +25,8 @@ public class CodeServlet extends HttpServlet {
         String code;
 
         try{
-            login = req.getParameter("login");
-            code = req.getParameter("code");
+            login= EncryptionService.DecryptAES(req.getParameter("login"));
+            code = EncryptionService.DecryptAES(req.getParameter("code"));
         }catch (Exception e){
             e.printStackTrace();
             resp.setContentType("text/html:charset=utf-8");
