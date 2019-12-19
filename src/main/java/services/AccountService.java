@@ -27,7 +27,7 @@ public class AccountService implements Job{
     public void AddNewUser(User user){
         try{
             dbS.addUser(user);
-            loginToProfile1.put(user.getLogin(),user);
+            //loginToProfile1.put(user.getLogin(),user);
             setCodeForUser(user.getLogin());
         }
         catch (Exception ex){

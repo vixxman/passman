@@ -35,9 +35,9 @@ public class CodeServlet extends HttpServlet {
         }
 
         Timestamp t1= new Timestamp(System.currentTimeMillis());
-        boolean b=accountService.userIsLogged(login);
+        //boolean b=accountService.userIsLogged(login);
         boolean m=accountService.userIsLoggedM(login);
-        if(b==false || m ==false){
+        if(m ==false){
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
@@ -49,7 +49,7 @@ public class CodeServlet extends HttpServlet {
             if(((a2-a)/1000 >300)){
                 accountService.logout(u);
                 resp.setContentType("text/html:charset=utf-8");
-                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
             else{
                 accountService.updateSession(login, t1);
@@ -58,6 +58,7 @@ public class CodeServlet extends HttpServlet {
                     resp.setStatus(HttpServletResponse.SC_OK);
                 }
                 else{
+                    accountService.LogUser(u);
                     resp.setContentType("text/html:charset=utf-8");
                     resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }

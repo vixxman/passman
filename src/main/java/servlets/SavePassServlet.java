@@ -33,12 +33,12 @@ public class SavePassServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login=req.getParameter("login");
-        String password =req.getParameter("password");
-        String seed=req.getParameter("seed");
-        String pass=req.getParameter("pass");
-        String description=req.getParameter("description");
-        /*try{
+        String login;//=req.getParameter("login");
+        String password;//=req.getParameter("password");
+        String seed;//=req.getParameter("seed");
+        String pass;//=req.getParameter("pass");
+        String description;//=req.getParameter("description");
+        try{
             login= EncryptionService.DecryptAES(req.getParameter("login"));
             password=EncryptionService.DecryptAES(req.getParameter("password"));
             seed=EncryptionService.DecryptAES(req.getParameter("seed"));
@@ -49,7 +49,7 @@ public class SavePassServlet extends HttpServlet {
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
             return;
-        }*/
+        }
         Timestamp t1= new Timestamp(System.currentTimeMillis());
         boolean b=accountService.userIsLogged(login);
         boolean m=accountService.userIsLoggedM(login);
